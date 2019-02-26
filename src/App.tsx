@@ -1,22 +1,30 @@
 import * as React from 'react';
-import './App.css';
+import { SortTimes, SortOptions } from 'src/constants/sort';
+import App from './components/app';
 
-import logo from './logo.svg';
 
-class App extends React.Component {
+interface IState {
+  subredditName?: string,
+  sortTime: SortTimes,
+  sortOption?: SortOptions
+}
+
+
+class AppContainer extends React.Component<{}, IState> {
+  setSubreddit = (newValue: string): void => this.setState({subredditName: newValue});
+  setSortOption = (newValue: SortOptions): void => this.setState({sortOption: newValue});
+  setSortTime = (newValue: SortTimes): void => this.setState({sortTime: newValue});
+
   public render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.tsx</code> and save to reload.
-        </p>
-      </div>
+      <App 
+        {...this.state}
+        setSubreddit={this.setSubreddit}
+        setSortOption={this.setSortOption}
+        setSortTime={this.setSortTime}
+      />
     );
   }
 }
 
-export default App;
+export default AppContainer;
