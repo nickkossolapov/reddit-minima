@@ -1,7 +1,6 @@
 export interface IRedditPosts {
   posts: IRedditPost[],
-  before?: string,
-  after?: string
+  nextQueryData: IQueryData
 }
 
 export interface IRedditPost {
@@ -9,5 +8,11 @@ export interface IRedditPost {
   over18: boolean,
   permalink: string,
   url: string,
-  comments: number
+  comments: number,
+  selftext: string
+}
+
+export interface IQueryData {
+  subreddit?: string,
+  after?: string
 }

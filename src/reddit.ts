@@ -1,33 +1,49 @@
 import axios from 'axios';
-import {IRedditPost, IRedditPosts} from "./types/reddit-types";
+import {IQueryData, IRedditPost, IRedditPosts} from "./types/reddit-types";
 
 const BASE_URL = 'https://www.reddit.com/';
+const PERMALINK_BASE_URL = 'https://www.reddit.com';
 const JSON_PATH = '.json';
 
-function parsePostsData(response: any): IRedditPosts {
-  const posts: IRedditPost[] = Array.from(response.data.children.map((child: any) => {
-    const post: IRedditPost = {
-      title: child.title,
-      over18: child.over_18 === 'true',
-      permalink: child.permalink,
-      url: child.url,
-      comments: parseInt(child.num_comments)
+function parsePostsData(response: any): IRedditPost[] {
+  return Array.from(response.data.children.map((child: any) => {
+    const data = child.data;
+    return {
+      title: data.title,
+      over18: data.over_18 === true,
+      permalink: PERMALINK_BASE_URL + data.permalink,
+      url: data.url,
+      comments: parseInt(data.num_comments),
+      selftext: data.selftext
     };
-
-    return post;
   }));
-
-  return {
-    posts: posts,
-    before: response.data.before,
-    after: response.data.after
-  };
 }
 
-export async function getPosts(subreddit?: string): Promise<IRedditPosts> {
-  const subredditPath: string = subreddit !== null ? `r/${subreddit}/` : '';
-  const response = await axios.get(BASE_URL + subredditPath + JSON_PATH);
-  const data = parsePostsData(response);
+function getQueryParameters(queryData: IQueryData): string {
+  if (queryData.after != null) {
+    return '?after='+queryData.after;
+  }
+  return '';
+}
 
-  return data;
+function buildSubredditUrl(queryData: IQueryData): string {
+  const { subreddit } = queryData;
+  const queryParameters = getQueryParameters(queryData);
+  const subredditPath: string = queryData.subreddit != null ? `r/${subreddit}/` : '';
+
+  return BASE_URL + subredditPath + JSON_PATH + queryParameters;
+}
+
+export async function getPosts(queryData: IQueryData): Promise<IRedditPosts> {
+  const url = buildSubredditUrl(queryData);
+  const response = await axios.get(url);
+  const posts = parsePostsData(response);
+
+  return {
+    posts,
+    nextQueryData: {
+      subreddit: queryData.subreddit,
+      after: response.data.after
+    }
+  };
 }
