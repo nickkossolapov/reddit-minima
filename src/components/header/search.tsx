@@ -1,11 +1,11 @@
 import * as React from 'react';
 
-export interface IProps {
+export interface SearchProps {
   subredditName?: string,
   setSubreddit: (newValue: string) => void
 }
 
-function Search(props: IProps) {
+function Search(props: SearchProps) {
   return (
     <fieldset>
       <input />
