@@ -1,19 +1,18 @@
 import * as React from 'react';
-import Search, { SearchProps } from './header/search';
-import './app.css';
+import Search, { SearchProps } from '../header/search/search';
+import './home.css';
 
 interface IProps extends SearchProps {
 }
 
-function App(props: IProps) {
+function Home(props: IProps) {
   return (
     <header className='app'>
-      <Search 
-        subredditName={props.subredditName}
+      <Search
         setSubreddit={props.setSubreddit}
       />
     </header>
   );
 }
 
-export default App;
+export default Home;
