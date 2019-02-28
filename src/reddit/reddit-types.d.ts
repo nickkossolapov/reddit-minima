@@ -1,9 +1,9 @@
-export interface IRedditPosts {
-  posts: IRedditPost[],
-  nextQueryData: IQueryData
+export interface RedditPostsQuery {
+  posts: RedditPost[],
+  nextQueryData: QueryData
 }
 
-export interface IRedditPost {
+export interface RedditPost {
   title: string,
   over18: boolean,
   permalink: string,
@@ -12,7 +12,7 @@ export interface IRedditPost {
   selftext: string
 }
 
-export interface IQueryData {
+export interface QueryData {
   subreddit?: string,
   after?: string
 }

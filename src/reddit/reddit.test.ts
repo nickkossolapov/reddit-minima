@@ -1,8 +1,8 @@
 import axios from 'axios';
 import * as Reddit from './reddit';
-import * as postsData from './test-data/posts-data.json';
-import * as singlePostData from './test-data/single-post-data.json';
-import {IRedditPosts} from "./types/reddit-types";
+import * as postsData from '../test-data/posts-data.json';
+import * as singlePostData from '../test-data/single-post-data.json';
+import {RedditPostsQuery} from "./reddit-types";
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
@@ -31,7 +31,7 @@ it('should get reddit posts', async () => {
     subreddit: 'test'
   };
 
-  const data: IRedditPosts = await Reddit.getPosts(queryData);
+  const data: RedditPostsQuery = await Reddit.getPosts(queryData);
   expect(data.posts).toBeTruthy();
 });
 
@@ -42,7 +42,7 @@ it('should get 10 reddit posts', async () => {
     subreddit: 'test'
   };
 
-  const data: IRedditPosts = await Reddit.getPosts(queryData);
+  const data: RedditPostsQuery = await Reddit.getPosts(queryData);
   expect(data.posts.length).toEqual(10);
 });
 
@@ -52,7 +52,7 @@ it('should get reddit after value', async () => {
     subreddit: 'test'
   };
 
-  const data: IRedditPosts = await Reddit.getPosts(queryData);
+  const data: RedditPostsQuery = await Reddit.getPosts(queryData);
   expect(data.nextQueryData.after).toEqual('t3_29xpib');
 });
 
@@ -82,6 +82,13 @@ it('should get correct post data from Reddit API', async () => {
     selftext: ''
   };
 
-  const data: IRedditPosts = await Reddit.getPosts(queryData);
+  const data: RedditPostsQuery = await Reddit.getPosts(queryData);
   expect(data.posts[0]).toEqual(targetPost);
+});
+
+it('should get reddit posts for new subreddit', async () => {
+  mockedAxios.get.mockReturnValueOnce(postsData as any);
+
+  await Reddit.getPostsForSubreddit('test');
+  expect(mockedAxios.get).toHaveBeenCalledWith('https://www.reddit.com/r/test/.json');
 });

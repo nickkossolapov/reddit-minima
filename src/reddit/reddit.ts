@@ -1,11 +1,12 @@
 import axios from 'axios';
-import {IQueryData, IRedditPost, IRedditPosts} from "./types/reddit-types";
+import {QueryData, RedditPost, RedditPostsQuery} from "./reddit-types";
 
 const BASE_URL = 'https://www.reddit.com/';
 const PERMALINK_BASE_URL = 'https://www.reddit.com';
 const JSON_PATH = '.json';
+const DEFAULT_QUERY_DATA = {};
 
-function parsePostsData(response: any): IRedditPost[] {
+function parsePostsData(response: any): RedditPost[] {
   return Array.from(response.data.children.map((child: any) => {
     const data = child.data;
     return {
@@ -19,14 +20,14 @@ function parsePostsData(response: any): IRedditPost[] {
   }));
 }
 
-function getQueryParameters(queryData: IQueryData): string {
+function getQueryParameters(queryData: QueryData): string {
   if (queryData.after != null) {
     return '?after='+queryData.after;
   }
   return '';
 }
 
-function buildSubredditUrl(queryData: IQueryData): string {
+function buildSubredditUrl(queryData: QueryData): string {
   const { subreddit } = queryData;
   const queryParameters = getQueryParameters(queryData);
   const subredditPath: string = queryData.subreddit != null ? `r/${subreddit}/` : '';
@@ -34,7 +35,7 @@ function buildSubredditUrl(queryData: IQueryData): string {
   return BASE_URL + subredditPath + JSON_PATH + queryParameters;
 }
 
-export async function getPosts(queryData: IQueryData): Promise<IRedditPosts> {
+export async function getPosts(queryData: QueryData = DEFAULT_QUERY_DATA): Promise<RedditPostsQuery> {
   const url = buildSubredditUrl(queryData);
   const response = await axios.get(url);
   const posts = parsePostsData(response);
@@ -46,4 +47,12 @@ export async function getPosts(queryData: IQueryData): Promise<IRedditPosts> {
       after: response.data.after
     }
   };
+}
+
+export function getPostsForSubreddit(subreddit: string): Promise<RedditPostsQuery> {
+  const queryData: QueryData = {
+    subreddit
+  };
+
+  return getPosts(queryData)
 }

@@ -1,11 +1,13 @@
 import * as React from 'react';
-import Search, { SearchProps } from '../header/search/search';
+import Search, { SearchProps } from '../search/search';
 import './home.css';
+import {RedditPost} from "../../reddit/reddit-types";
 
-interface IProps extends SearchProps {
+interface HomeProps extends SearchProps {
+  posts: RedditPost[]
 }
 
-function Home(props: IProps) {
+function Home(props: HomeProps) {
   return (
     <header className='app'>
       <Search
