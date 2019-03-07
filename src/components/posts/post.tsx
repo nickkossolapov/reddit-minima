@@ -5,7 +5,11 @@ function doesUrlContainImage(url: string) {
   return(url.match(/\.(jpeg|jpg|gif|png)$/) != null);
 }
 
-function Post(props: RedditPost) {
+interface Post extends RedditPost {
+  handleKeyPress: (event: React.KeyboardEvent<HTMLLIElement>) => void
+}
+
+function Post(props: Post) {
   if (props.over18) {
     return null;
   }
@@ -14,7 +18,7 @@ function Post(props: RedditPost) {
   const urlContainsImage = doesUrlContainImage(url);
 
   return (
-    <li className='post'>
+    <li className='post' onKeyPress={props.handleKeyPress}>
       {urlContainsImage ? <a href={url}><img src={url} alt={title}/></a> : null}
       <a href={urlContainsImage? url : permalink}><h2>{title}</h2></a>
       <a href={permalink}>{comments} comments</a>
