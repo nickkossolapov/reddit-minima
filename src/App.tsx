@@ -9,7 +9,7 @@ interface IState {
   nextQueryData?: QueryData
 }
 
-class AppContainer extends React.Component<{}, IState> {
+class App extends React.Component<{}, IState> {
   constructor(props: any) {
     super(props);
 
@@ -53,4 +53,4 @@ class AppContainer extends React.Component<{}, IState> {
   };
 }
 
-export default AppContainer;
+export default App;
