@@ -1,6 +1,7 @@
 import * as React from 'react';
 import {RedditPost} from "../../reddit/reddit-types";
 import Post from "./post";
+import ArrowNavigator from "../arrow-navigator/arrow-navigator";
 
 const LEFT_ARROW = '37';
 const RIGHT_ARROW = '39';
@@ -15,7 +16,7 @@ interface PostsState {
   loading: boolean
 }
 
-class Posts extends React.Component<PostsProps, PostsState> {
+class PostContainer extends React.Component<PostsProps, PostsState> {
   constructor(props: PostsProps){
     super(props);
 
@@ -37,28 +38,20 @@ class Posts extends React.Component<PostsProps, PostsState> {
     if (!this.state.loading) {
       if ((this.state.index + 1) > (this.props.posts.length-1)) {
         try {
-          this.setState({
-            loading: true
-          });
+          this.setState({loading: true});
           await this.props.fetchNextPosts();
         } finally {
-          this.setState({
-            loading: false
-          });
+          this.setState({loading: false});
         }
       } else {
-        this.setState({
-          index: this.state.index + 1
-        })
+        this.setState({index: this.state.index + 1})
       }
     }
   };
 
   goToPreviousPost = () => {
     if (this.state.index > 0 ){
-      this.setState({
-        index: this.state.index - 1
-      })
+      this.setState({index: this.state.index - 1})
     }
   };
 
@@ -75,10 +68,14 @@ class Posts extends React.Component<PostsProps, PostsState> {
   };
 
   render() {
-    return this.state.loading
+    return this.state.loading || this.props.posts.length == 0
       ? <div className='loading'>Loading...</div>
-      : <Post {...(this.props.posts[this.state.index])} />
+      : <>
+          <ArrowNavigator direction='left' handleClick={() => this.goToPreviousPost()} />
+          <Post {...(this.props.posts[this.state.index])} />
+          <ArrowNavigator direction='right' handleClick={() => this.goToNextPost()}/>
+        </>;
   }
 }
 
-export default Posts;
+export default PostContainer;

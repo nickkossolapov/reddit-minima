@@ -8,6 +8,6 @@ const mockSetSubreddit = jest.fn((newValue: string) => {});
 
 it('renders without crashing', () => {
   const div = document.createElement('div');
-  ReactDOM.render(<Home setSubreddit={mockSetSubreddit} posts={postsData}/>, div);
+  ReactDOM.render(<Home setSubreddit={mockSetSubreddit} posts={postsData} fetchNextPosts={() => {}}/>, div);
   ReactDOM.unmountComponentAtNode(div);
 });

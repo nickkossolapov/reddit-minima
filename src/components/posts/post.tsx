@@ -14,7 +14,7 @@ function Post(props: RedditPost) {
   const urlContainsImage = doesUrlContainImage(url);
 
   return (
-    <li className='post' onKeyPress={(event: React.KeyboardEvent<HTMLLIElement>) => props.handleKeyDown(event.key)}>
+    <li className='post'>
       {urlContainsImage ? <a href={url}><img src={url} alt={title}/></a> : null}
       <a href={urlContainsImage? url : permalink}><h2>{title}</h2></a>
       <a href={permalink}>{comments} comments</a>

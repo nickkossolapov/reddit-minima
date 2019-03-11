@@ -48,6 +48,7 @@ class App extends React.Component<{}, IState> {
       <Home
         posts={this.state.posts}
         setSubreddit={this.setSubreddit}
+        fetchNextPosts={this.fetchNextPosts}
       />
     );
   };
