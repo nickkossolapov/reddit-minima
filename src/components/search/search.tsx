@@ -19,18 +19,22 @@ class Search extends React.Component<SearchProps, SearchState>{
   }
 
   handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      value: event.target.value
-    })
+    this.setState({value: event.target.value})
   };
 
   handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
     this.props.setSubreddit(this.state.value);
+    if (document.activeElement){
+      (document.activeElement as any).blur();
+    }
+    this.setState({value: ''});
   };
 
   render() {
     return (
-      <form className='search-form' onSubmit={this.handleSubmit}>
+      <form className='search-form' onSubmit={event => this.handleSubmit(event)}>
         <input
           className='search-input'
           placeholder='Enter a subreddit'

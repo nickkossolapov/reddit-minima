@@ -3,8 +3,8 @@ import {RedditPost} from "../../reddit/reddit-types";
 import Post from "./post";
 import ArrowNavigator from "../arrow-navigator/arrow-navigator";
 
-const LEFT_ARROW = '37';
-const RIGHT_ARROW = '39';
+const LEFT_ARROW = 'ArrowLeft';
+const RIGHT_ARROW = 'ArrowRight';
 
 interface PostsProps {
   posts: RedditPost[],

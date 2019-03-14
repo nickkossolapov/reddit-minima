@@ -7,8 +7,8 @@ import * as postsData from "../../test-data/processed-posts-data.json";
 
 const mockFetchNextPosts = jest.fn(() => {});
 
-const LEFT_ARROW = '37';
-const RIGHT_ARROW = '39';
+const LEFT_ARROW = 'ArrowLeft';
+const RIGHT_ARROW = 'ArrowRight';
 
 it('renders without crashing', async () => {
   const div = document.createElement('div');
