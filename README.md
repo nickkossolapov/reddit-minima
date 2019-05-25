@@ -12,7 +12,7 @@ This is a super simple reddit client created to try test-driven development (TDD
 
 To this end, every line in the app was written only after writing a failing test, Even with a lot of the 'plumbing', such as connecting components to the state, was written this way. And so, the app has 100% coverage on all written code. 
 
-Furthermore, with the exception of a wrong keyboard event code and CORS, the entire app was written without running it once, and was otherwise completely functional when first running it. 
+Furthermore, with the exception of a wrong keyboard event code and CORS, the entire app was written without running it once, and was otherwise completely functional after fixing these minor issues. 
 
 ### Built with: 
 
