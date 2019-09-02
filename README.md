@@ -1,10 +1,8 @@
 # reddit-minima
 
-A super simple reddit client built with TDD.
-
 ### Background
 
-This is a super simple reddit client created to try test-driven development (TDD) with a front end framework built as a learning exercise. As per Uncle Bob, there are 3 tentants to TDD:
+This is a super simple reddit client I created to try out test-driven development (TDD) with a front end framework. As per Uncle Bob, there are 3 tentants to TDD:
 
 1. You are not allowed to write any production code unless it is to make a failing unit test pass.
 1. You are not allowed to write any more of a unit test than is sufficient to fail; and compilation failures are failures.
